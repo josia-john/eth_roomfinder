@@ -1,1 +1,3 @@
 .build
+shell.nix
+.venv
