@@ -1,6 +1,8 @@
 Currently hosted on [rooms.jlabs.ch](https://rooms.jlabs.ch).
 
-To build the docker image: `docker save -o <path for created tar file> <image name>`
+To build the docker image: `sudo docker build -t <image_name> src`
+
+To save the docker image: `docker save -o <path for created tar file> <image name>`
 
 To load the docker image: `docker load -i <path to docker image tar file>`
 
