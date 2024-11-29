@@ -25,6 +25,7 @@ body {
     top: 10px;
     color: white;
     font-weight: bold;
+    text-decoration: none;
   }
   .current-time-line {
     position: fixed;

@@ -50,7 +50,9 @@ async function loadSchedule() {
       const bar = document.createElement('div');
       bar.classList.add('bar');
 
-      const roomLabel = document.createElement('div');
+      const roomLabel = document.createElement('a');
+      const roomInfo = roomName.split(" ");
+      roomLabel.href = `https://ethz.ch/de/utils/location.html?building=${roomInfo[0]}&floor=${roomInfo[1]}&room=${roomInfo[2]}`;
       roomLabel.classList.add('room-name');
       roomLabel.textContent = roomName;
 
