@@ -1,0 +1,1 @@
+0 4 * * * python3 /fetchFiles.py >> /var/log/cron.log 2>&1
