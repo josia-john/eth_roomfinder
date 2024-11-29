@@ -46,6 +46,42 @@ function buildBar(entry, startBoundary, endBoundary, totalBoundarySeconds) {
   return barContainer;
 }
 
+
+
+function buildBatch(batch, startBoundary, endBoundary, totalBoundarySeconds) {
+  const batchContainer = document.createElement('div');
+  batch.forEach(entry => {
+    const barContainer = buildBar(entry, startBoundary, endBoundary, totalBoundarySeconds);
+    batchContainer.appendChild(barContainer);
+  });
+  batchContainer.style.display = 'none';
+  return batchContainer;
+}
+
+function buildButton(building_name, batchContainer) {
+  const toggleButton = document.createElement('button');
+  toggleButton.textContent = building_name;
+  toggleButton.classList.add('bar-container');
+  toggleButton.classList.add('building-button');
+
+  toggleButton.addEventListener('click', () => {
+    if (batchContainer.style.display === 'none') {
+      batchContainer.style.display = 'block';
+    } else {
+      batchContainer.style.display = 'none';
+    }
+  });
+
+  toggleButton.addEventListener('mouseover', () => {
+    toggleButton.style.backgroundColor = '#f1f1f1';
+  });
+  toggleButton.addEventListener('mouseout', () => {
+    toggleButton.style.backgroundColor = 'white';
+  });
+
+  return toggleButton;
+}
+
 async function loadSchedule() {
   const url = 'https://rooms.jlabs.ch/api'; // Replace with your API URL
   const response = await fetch(url);
@@ -96,25 +132,11 @@ async function loadSchedule() {
   });
 
   building_batches.forEach((building_data, building_name) => {
-    const toggleButton = document.createElement('button');
-    toggleButton.textContent = building_name;
-
-    const batchContainer = document.createElement('div');
-    building_data.forEach(entry => {
-      const barContainer = buildBar(entry, startBoundary, endBoundary, totalBoundarySeconds);
-      batchContainer.appendChild(barContainer);
-    });
-    toggleButton.addEventListener('click', () => {
-      if (batchContainer.style.display === 'none') {
-        batchContainer.style.display = 'block';
-      } else {
-        batchContainer.style.display = 'none';
-      }
-    });
-    scheduleContainer.appendChild(toggleButton);
+    const batchContainer = buildBatch(building_data, startBoundary, endBoundary, totalBoundarySeconds);
+    const buildingButton = buildButton(building_name, batchContainer);
+    scheduleContainer.appendChild(buildingButton);
     scheduleContainer.appendChild(batchContainer);
   });
-
 }
 
 loadSchedule();
