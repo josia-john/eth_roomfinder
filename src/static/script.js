@@ -8,7 +8,9 @@ function buildBar(entry, startBoundary, endBoundary, totalBoundarySeconds) {
   const bar = document.createElement('div');
   bar.classList.add('bar');
 
-  const roomLabel = document.createElement('div');
+  const roomLabel = document.createElement('a');
+  const roomInfo = roomName.split(" ");
+  roomLabel.href = `https://ethz.ch/de/utils/location.html?building=${roomInfo[0]}&floor=${roomInfo[1]}&room=${roomInfo[2]}`;
   roomLabel.classList.add('room-name');
   roomLabel.textContent = roomName;
 
@@ -30,6 +32,8 @@ function buildBar(entry, startBoundary, endBoundary, totalBoundarySeconds) {
     // Calculate position and width based on the 6:00 AM - 10:00 PM range
     const fromPercentage = ((adjustedFromTime - startBoundary) / (totalBoundarySeconds * 1000)) * 100;
     const toPercentage = ((adjustedToTime - startBoundary) / (totalBoundarySeconds * 1000)) * 100;
+
+    console.log(adjustedFromTime);
 
     timeSlot.style.left = `${fromPercentage}%`;
     timeSlot.style.width = `${toPercentage - fromPercentage}%`;
@@ -55,14 +59,29 @@ async function loadSchedule() {
   const endBoundary = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 22, 0, 0);
   const totalBoundarySeconds = (endBoundary - startBoundary) / 1000;
 
+  let t = new Date(startBoundary);
+  t.setHours(t.getHours() + 2);
+  for (; t < endBoundary; t.setHours(t.getHours() + 2)) {
+    let currentTimePercentage = ((t - startBoundary) / (totalBoundarySeconds * 1000)) * 100;
+    console.log(currentTimePercentage);
+    // Create the vertical line
+    let currentTimeLine = document.createElement('div');
+    currentTimeLine.classList.add('hourly-time-line');
+    currentTimeLine.style.left = `${currentTimePercentage}%`;
+
+    scheduleContainer.appendChild(currentTimeLine);
+  }
+
+
   // Add current time indicator if within boundaries
   if (now >= startBoundary && now <= endBoundary) {
     const currentTimePercentage = ((now - startBoundary) / (totalBoundarySeconds * 1000)) * 100;
-
     // Create the vertical line
     const currentTimeLine = document.createElement('div');
     currentTimeLine.classList.add('current-time-line');
     currentTimeLine.style.left = `${currentTimePercentage}%`;
+
+    console.log(now);
 
     scheduleContainer.appendChild(currentTimeLine);
   }
