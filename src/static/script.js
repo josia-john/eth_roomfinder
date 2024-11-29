@@ -86,10 +86,35 @@ async function loadSchedule() {
     scheduleContainer.appendChild(currentTimeLine);
   }
 
+  let building_batches = new Map();
   data.forEach(entry => {
-    const barContainer = buildBar(entry, startBoundary, endBoundary, totalBoundarySeconds);
-    scheduleContainer.appendChild(barContainer);
+    let building = entry.room.split(" ")[0];
+    if (!building_batches.has(building)) {
+      building_batches.set(building, []);
+    }
+    building_batches.get(building).push(entry);
   });
+
+  building_batches.forEach((building_data, building_name) => {
+    const toggleButton = document.createElement('button');
+    toggleButton.textContent = building_name;
+
+    const batchContainer = document.createElement('div');
+    building_data.forEach(entry => {
+      const barContainer = buildBar(entry, startBoundary, endBoundary, totalBoundarySeconds);
+      batchContainer.appendChild(barContainer);
+    });
+    toggleButton.addEventListener('click', () => {
+      if (batchContainer.style.display === 'none') {
+        batchContainer.style.display = 'block';
+      } else {
+        batchContainer.style.display = 'none';
+      }
+    });
+    scheduleContainer.appendChild(toggleButton);
+    scheduleContainer.appendChild(batchContainer);
+  });
+
 }
 
 loadSchedule();
