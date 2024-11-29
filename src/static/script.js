@@ -11,6 +11,21 @@ async function loadSchedule() {
     const endBoundary = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 22, 0, 0);
     const totalBoundarySeconds = (endBoundary - startBoundary) / 1000;
 
+
+    let t = new Date(startBoundary);
+    t.setHours(t.getHours() + 2);
+    for(; t < endBoundary; t.setHours(t.getHours() + 2)) {
+      let currentTimePercentage = ((t - startBoundary) / (totalBoundarySeconds * 1000)) * 100;
+      console.log(currentTimePercentage);
+      // Create the vertical line
+      let currentTimeLine = document.createElement('div');
+      currentTimeLine.classList.add('hourly-time-line');
+      currentTimeLine.style.left = `${currentTimePercentage}%`;
+
+      scheduleContainer.appendChild(currentTimeLine);    
+    }  
+
+
     // Add current time indicator if within boundaries
     if (now >= startBoundary && now <= endBoundary) {
       const currentTimePercentage = ((now - startBoundary) / (totalBoundarySeconds * 1000)) * 100;
