@@ -96,7 +96,7 @@ function buildToggle() {
 }
 
 async function loadSchedule() {
-  const url = 'https://rooms.jlabs.ch/api'; // Replace with your API URL
+  const url = '/api'; // Replace with your API URL
   const response = await fetch(url);
   const data = await response.json();
 

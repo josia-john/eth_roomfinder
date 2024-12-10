@@ -33,7 +33,7 @@ body {
     width: 2px;
     height: 100%;
     background-color: black;
-    z-index: 2; /* Ensures it appears on top of the bars */
+    z-index: 2; /* Ensures it appears on top of the bars and the buttons */
   }
 
   .hourly-time-line {
@@ -70,7 +70,7 @@ body {
     height: 30px;
     border: 1px solid lightgray;
     background-color: white;
-    z-index: 2; /* Ensures the buttons render above the time lines */
+    z-index: 2; /* Ensures the button renders above the time lines */
 
     text-align: left;
     text-decoration: none;
