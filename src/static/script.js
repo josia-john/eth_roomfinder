@@ -54,7 +54,7 @@ function buildBatch(batch, startBoundary, endBoundary, totalBoundarySeconds) {
     const barContainer = buildBar(entry, startBoundary, endBoundary, totalBoundarySeconds);
     batchContainer.appendChild(barContainer);
   });
-  batchContainer.style.display = 'none';
+  batchContainer.style.display = 'block<';
   return batchContainer;
 }
 
@@ -82,12 +82,34 @@ function buildButton(building_name, batchContainer) {
   return toggleButton;
 }
 
+function buildToggle() {
+  const toggleAll = document.createElement('button')
+  toggleAll.classList.add('toggle-button')
+  toggleAll.addEventListener('mouseover', () => {
+    toggleAll.style.backgroundColor = '#f1f1f1';
+  });
+  toggleAll.addEventListener('mouseout', () => {
+    toggleAll.style.backgroundColor = 'white';
+  });
+  toggleAll.textContent = "Collapse All"
+  return toggleAll
+}
+
 async function loadSchedule() {
   const url = 'https://rooms.jlabs.ch/api'; // Replace with your API URL
   const response = await fetch(url);
   const data = await response.json();
 
   const scheduleContainer = document.getElementById('schedule');
+
+  // build title bar
+  const titleDiv = document.createElement('h3')
+  titleDiv.textContent = "ETH Roomfinder";
+  titleDiv.classList.add('title')
+  const toggleAll = buildToggle()
+  titleDiv.appendChild(toggleAll)
+  scheduleContainer.appendChild(titleDiv)
+
   const now = new Date();
 
   // Define the boundaries: 6:00 AM to 10:00 PM
@@ -131,12 +153,28 @@ async function loadSchedule() {
     building_batches.get(building).push(entry);
   });
 
+  // toggle all functionality
+
+  let batchCointainers = []
+  let isOpen = true;
+
   building_batches.forEach((building_data, building_name) => {
     const batchContainer = buildBatch(building_data, startBoundary, endBoundary, totalBoundarySeconds);
     const buildingButton = buildButton(building_name, batchContainer);
+
+    batchCointainers.push(batchContainer)
+
     scheduleContainer.appendChild(buildingButton);
     scheduleContainer.appendChild(batchContainer);
   });
+
+  toggleAll.addEventListener('click', () => {
+    batchCointainers.forEach((bC) => {
+      bC.style.display = isOpen ? "none" : "block";
+    })
+    isOpen = !isOpen
+    toggleAll.textContent = isOpen ? "Collapse all" : "Expand all"
+  })
 }
 
 loadSchedule();
