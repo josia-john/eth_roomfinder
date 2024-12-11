@@ -75,3 +75,18 @@ body {
     text-align: left;
     text-decoration: none;
   }
+
+/* flex container for header row of times */
+  .flex-container{ 
+    position: sticky;
+    top: 0;
+    display: flex;
+    background-color: white;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    z-index: 2;
+  }
+  .flex-container > div {
+    text-align: center;
+    //text-align: left;
+  }
