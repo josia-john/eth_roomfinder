@@ -33,7 +33,7 @@ body {
     width: 2px;
     height: 100%;
     background-color: black;
-    z-index: 10; /* Ensures it appears on top of the bars */
+    z-index: 2; /* Ensures it appears on top of the bars and the buttons */
   }
 
   .hourly-time-line {
@@ -43,4 +43,35 @@ body {
     height: 100%;
     background-color: white;
     z-index: 1; /* Ensures it appears on top of the bars */
+  }
+
+  .building-button {
+    position: relative;
+    margin: 10px 0;
+    width: 100%;
+    height: 40px;
+    border: 1px solid lightgray;
+    background-color: white;
+    z-index: 1; /* Ensures the buttons render above the time lines */
+
+    text-align: left;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .title {
+    position: relative;
+    z-index: 2;
+  }
+  .toggle-button {
+    position: relative;
+    margin: 10px 30px;
+    /* width: 100px; */
+    height: 30px;
+    border: 1px solid lightgray;
+    background-color: white;
+    z-index: 2; /* Ensures the button renders above the time lines */
+
+    text-align: left;
+    text-decoration: none;
   }
