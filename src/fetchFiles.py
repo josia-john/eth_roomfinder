@@ -13,7 +13,7 @@ def get_room_names():
             text=True,
             check=True
         )
-        with open("/data/rooms.json", "w") as f:
+        with open("data/rooms.json", "w") as f:
             f.write(result.stdout)
         # Parse JSON data
         data = json.loads(result.stdout)
@@ -69,6 +69,6 @@ def fetch_room_allocations_with_curl(url):
 rooms = get_room_names()
 for r in rooms:
     url = generate_room_url(r, datetime.today().strftime('%Y-%m-%d'), datetime.today().strftime('%Y-%m-%d'))
-    with open("/data/"+r, "w") as f:
+    with open("data/"+r, "w") as f:
         f.write(fetch_room_allocations_with_curl(url))
 

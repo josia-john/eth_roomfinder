@@ -1,3 +1,22 @@
+function buildHeaderRow(startBoundary, endBoundary) {
+  // create new div with (end-start)/2 boxes each with start hour in it
+  const numCols = (endBoundary.getHours()-startBoundary.getHours())/2;
+  let headerRow = document.createElement('div');
+  headerRow.classList.add('flex-container');
+
+  let t = new Date(startBoundary);
+  for(; t < endBoundary; t.setHours(t.getHours() + 2)) {
+    //Create headerRow time entries
+    let currentHeaderRow = document.createElement('div');
+    currentHeaderRow.style.width = `calc(100%/${numCols})`;
+    let content = document.createTextNode(`${t.getHours()}:00`);
+    currentHeaderRow.appendChild(content);
+    headerRow.appendChild(currentHeaderRow);
+  }
+
+  return headerRow;
+}
+
 function buildBar(entry, startBoundary, endBoundary, totalBoundarySeconds) {
   const roomName = entry.room;
   const timeSlots = entry.info; // Array of time slots
@@ -45,8 +64,6 @@ function buildBar(entry, startBoundary, endBoundary, totalBoundarySeconds) {
   barContainer.appendChild(bar);
   return barContainer;
 }
-
-
 
 function buildBatch(batch, startBoundary, endBoundary, totalBoundarySeconds) {
   const batchContainer = document.createElement('div');
@@ -116,6 +133,10 @@ async function loadSchedule() {
   const startBoundary = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0);
   const endBoundary = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 22, 0, 0);
   const totalBoundarySeconds = (endBoundary - startBoundary) / 1000;
+
+  // build headerrow with timeslots
+  const headerRow = buildHeaderRow(startBoundary, endBoundary);
+  scheduleContainer.appendChild(headerRow);
 
   let t = new Date(startBoundary);
   t.setHours(t.getHours() + 2);
